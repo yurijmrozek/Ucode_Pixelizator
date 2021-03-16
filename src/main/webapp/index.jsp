@@ -1,33 +1,41 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>User Form</title>
+    <%@ page contentType="text/html;charset=UTF-8" %>
+    <style><%@include file="css/style.css"%></style>
+    <title>Ucode_Pixelizator</title>
 </head>
 <body>
+    <header>
+        <div class="top-header">
+            <p>PIXELIZATOR</p>
+        </div>
+    </header>
 
-    <form action="hello" method="POST">
-        Name: <input name="username" />
-        <br><br>
-        Age: <input name="userage" />
-        <br><br>
-        Gender: <input type="radio" name="gender" value="female" checked />Female
-        <input type="radio" name="gender" value="male" />Male
-        <br><br>
-        Country: <select name="country">
-                    <option>Canada</option>
-                    <option>Spain</option>
-                    <option>France</option>
-                    <option>Germany</option>
-                 </select>
-        <br><br>
-        Courses:
-        <input type="checkbox" name="courses" value="JavaSE" checked />Java SE
-        <input type="checkbox" name="courses" value="JavaFX" checked />Java FX
-        <input type="checkbox" name="courses" value="JavaEE" checked />Java EE
-        <br><br>
-        <input type="submit" value="Submit" />
-    </form>
+    <div class="file-input">
+        <form action="download-image" method="POST">
+            <p>Load image to server</p>
+            <p>
+                <input type="file" name="photo" multiple accept="image/*,image/jpeg">
+                <input type="submit" name="Submit">
+            </p>
+        </form>
+    </div>
 
+    <div class="loaded-img">
+        <p>image</p>
+    </div>
+
+    <div class="options">
+        <p>options</p>
+    </div>
+
+    <div class="preview">
+        <p>image</p>
+    </div>
+
+    <div class="download">
+        <input type="button"/>
+    </div>
 </body>
 </html>
