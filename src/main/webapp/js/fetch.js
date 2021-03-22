@@ -1,28 +1,31 @@
 ﻿let file;
 let range;
+let range_num;
 let fformat;
+let fname;
 let fsize;
 
 async function pixelate_post() {
-    const url = "http://localhost:8081/upload-servlet";
-    const form_data = new FormData();
+    const url = "http://localhost:8080/Ucode_Pixelizator_war/upload-servlet";
+    const formData = new FormData();
 
     if (file && check_format()) {
-        form_data.append('file', file);
-        form_data.set('fname', file.name);
-        form_data.set('fformat', fformat);
-        form_data.set('fsize', fsize);
-        form_data.set('range', range.value);
-
         try {
-            let resp = await fetch(url, {
+            formData.append('file', file);
+            let response = await fetch(url, {
                 method: 'POST',
-                body: form_data,
-                enctype: 'multipart/form-data'
+                body: formData,
+                enctype: "multipart/form-data",
+                headers: {
+                    'range': range.value,
+                    'format': fformat
+                }
             });
-            const data = await resp.text();
-            console.log(data);
-        } catch (error) {
+            let blob = await response.blob();
+            let reader = new FileReader();
+            reader.onloadend = function() { document.querySelector('img').src = reader.result; }
+            reader.readAsDataURL(blob);
+        } catch(error) {
             console.log(error);
         }
     }
@@ -30,6 +33,7 @@ async function pixelate_post() {
 
 function check_format() {
     fformat = file.name.substr(file.name.lastIndexOf('.', file.name.length) + 1);
+    fname = file.name.slice(file.name.start, file.name.lastIndexOf('.'));
     fformat = fformat.toLowerCase();
     const document_error = document.getElementById('error-text');
     if (fformat === 'png'
@@ -50,7 +54,10 @@ function check_format() {
 }
 
 function preview_file() {
+    document.getElementById("range-num").value = 1;
+    document.getElementById("range").value = 1;
     document.getElementById('error-text').textContent = "";
+
     file = document.querySelector('input[type=file]').files[0];
     if (file)
         fsize = document.querySelector('input[type=file]').files[0].size;
@@ -66,19 +73,19 @@ function preview_file() {
 
 function range_changed(from) {
     range = document.getElementById("range");
-    const num = document.getElementById("range-num");
+    range_num = document.getElementById("range-num");
 
     if (from === "range") {
-        num.value = range.value;
+        range_num.value = range.value;
 
         range.oninput = function() {
-            num.innerHTML = this.value;
+            range_num.innerHTML = this.value;
         }
         pixelate_post();
     } else {
-        if (num.value <= 100 && num.value >= 0) {
-            range.value = num.value;
-            num.oninput = function() {
+        if (range_num.value <= 100 && range_num.value >= 1) {
+            range.value = range_num.value;
+            range_num.oninput = function() {
                 range.innerHTML = this.value;
             }
             pixelate_post();
