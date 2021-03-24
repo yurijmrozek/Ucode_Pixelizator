@@ -4,6 +4,7 @@ let range_num;
 let fformat;
 let fname;
 let fsize;
+let blob;
 
 async function pixelate_post() {
     const url = "http://localhost:8080/Ucode_Pixelizator_war/upload-servlet";
@@ -21,7 +22,7 @@ async function pixelate_post() {
                     'format': fformat
                 }
             });
-            let blob = await response.blob();
+            blob = await response.blob();
             let reader = new FileReader();
             reader.onloadend = function() { document.querySelector('img').src = reader.result; }
             reader.readAsDataURL(blob);
@@ -57,6 +58,7 @@ function preview_file() {
     document.getElementById("range-num").value = 1;
     document.getElementById("range").value = 1;
     document.getElementById('error-text').textContent = "";
+    document.getElementById('file-size').textContent = "";
 
     file = document.querySelector('input[type=file]').files[0];
     if (file)
@@ -65,8 +67,10 @@ function preview_file() {
     const reader = new FileReader();
 
     reader.onloadend = function() { preview.src = reader.result; }
-    if (file && check_format())
+    if (file && check_format()) {
         reader.readAsDataURL(file);
+        document.getElementById('file-size').textContent = 'File size: ' + bytesToSize(file.size);
+    }
     else
         preview.src = "";
 }
@@ -91,4 +95,20 @@ function range_changed(from) {
             pixelate_post();
         }
     }
+}
+
+function download_image(format) {
+    if (file && check_format()) {
+        let a = document.createElement('a');
+        a.setAttribute('download', 'pixelate.' + format);
+        a.setAttribute('href', document.getElementById('image-res').src);
+        a.click();
+        a.remove();
+    }
+}
+
+function bytesToSize(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 }
