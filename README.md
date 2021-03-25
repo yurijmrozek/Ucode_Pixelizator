@@ -14,5 +14,7 @@ Technologies such as tomcat and servlets are used.
 - Run tomcat and go to http://localhost:8080/ (app name)
 - Enjoy
 
-![PreP]()
-![PostP]()
+# Screenshots
+
+![PreP](Prep.png)
+![PostP](Post.png)
