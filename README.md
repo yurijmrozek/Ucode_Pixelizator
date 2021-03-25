@@ -7,7 +7,8 @@ Technologies such as tomcat and servlets are used.
 
 # Instruction
 
-Go to https://ucodepixelizator.herokuapp.com/ (work not so fast)
+- Go to https://ucodepixelizator.herokuapp.com/ (work not so fast)
+- Enjoy
 
 **To run like local app**
 
