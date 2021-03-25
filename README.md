@@ -7,11 +7,10 @@ Technologies such as tomcat and servlets are used.
 
 # Instruction
 
-- install apache tomcat from https://tomcat.apache.org/download-90.cgi
+- install apache tomcat from https://tomcat.apache.org/download-90.cgi or install it via packet manager
 - Enter the command ./mvnw clean package in project root
-- In generated folder "target" get .war file (Ucode_Pixelizator-1.0-SNAPSHOT.war)
-- Place it in your Tomcat "webapps" directory
-- Run tomcat and go to http://localhost:8080/ (app name)
+- In root folder run >> java -jar target/dependency/webapp-runner.jar target/*.war <<
+- Go to http://localhost:8080/
 - Enjoy
 
 # Screenshots
